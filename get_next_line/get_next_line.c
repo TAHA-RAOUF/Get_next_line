@@ -3,47 +3,73 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taha_laylay <taha_laylay@student.42.fr>    +#+  +:+       +#+        */
+/*   By: moraouf <moraouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:09:42 by taha_laylay       #+#    #+#             */
-/*   Updated: 2024/11/24 21:56:46 by taha_laylay      ###   ########.fr       */
+/*   Updated: 2024/11/25 20:42:36 by moraouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "get_next_line.h"
+
+static char *get_line(char **reste)
+{
+	size_t len;
+	char *line;
+	char *tmp;
+
+	len = 0;
+	if (!*reste || **reste == '\0')
+		return (NULL);
+	while((*reste)[len] != '\n' && (*reste)[len] != '\0')
+		len++;
+	if((*reste)[len] == '\n')
+		len++;
+	line = malloc(len + 1);
+	if(!line)
+		return NULL;
+	ft_memcpy(line,*reste,len);
+	tmp = ft_strdup((*reste) + len );
+	free(*reste);
+	*reste = tmp;
+	return (line);
+}
+
 
 char *get_next_line(int fd)
 {
 	static char *reste;
 	size_t bytes;
 	char *buffer;
-	
+
 	if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
 	buffer = malloc(sizeof(char ) * (BUFFER_SIZE + 1));
 	if(!buffer)
 		return NULL;
-	bytes = read(fd,buffer,BUFFER_SIZE);
-	if(bytes < 0){
-		free(buffer);
-		return (NULL);	
+	while(!ft_strchr(reste,'\n'))
+	{
+		bytes = read(fd,buffer,BUFFER_SIZE);
+		if(bytes < 0){
+			free(buffer);
+			return (NULL);	
+		}
+		if(bytes == 0)
+			break;
+		reste = ft_strjoin(reste,buffer);
 	}
-	buffer[bytes] = '\0';
-	return(buffer);
+	return(get_line(&reste));
 }
-
-
+#include  <stdio.h>
 int main()
 {
-	int fd1 = open("Taha.txt", O_CREAT | O_RDWR , 0777);
-	if(fd1 == -1 )
+	int fd1 = open("Taha.txt",  O_RDONLY);
+	char *line;
+
+	if((line = get_next_line(fd1)) != NULL)
 	{
-		perror("ceci est une rror ");
+		printf("%s",line);
+		free(line);
 	}
-	write(fd1,"Salam ana labas o nta ki dayr llabas 3lik ",43);
-	lseek(fd1,0,SEEK_SET);
-	
-	printf("%s",get_next_line(fd1));
-	
+	close(fd1);
 }
