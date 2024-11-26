@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moraouf <moraouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/24 21:09:42 by taha_laylay       #+#    #+#             */
-/*   Updated: 2024/11/26 16:14:52 by moraouf          ###   ########.fr       */
+/*   Created: 2024/11/26 16:19:53 by moraouf           #+#    #+#             */
+/*   Updated: 2024/11/26 16:43:02 by moraouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 #include <stdio.h>
 
 static char	*ft_strjoin_free(char **reste, char *buffer)
@@ -76,7 +76,7 @@ char	*read_file(char *reste, char *buffer, int fd)
 
 char	*get_next_line(int fd)
 {
-	static char	*reste;
+	static char	*reste[FD_MAX];
 	size_t		bytes;
 	char		*buffer;
 
@@ -85,22 +85,48 @@ char	*get_next_line(int fd)
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-	reste = read_file(reste, buffer, fd);
+	reste[fd] = read_file(reste[fd], buffer, fd);
 	free(buffer);
-	return (get_line(&reste));
+	return (get_line(&reste[fd]));
 }
-// #include <stdio.h>
 
+// #include <stdio.h>
 // int	main(void)
 // {
 // 	int		fd1;
+//     int     fd2;
+//     int     fd3;
 // 	char	*line;
 
+//     if(fd1< 0 || fd2< 0 || fd3 < 0)
+//         {
+//             perror ("hadchi makhdamch");
+//         }
+
+//     printf("Reading from test1.txt:\n");
 // 	fd1 = open("Taha.txt", O_RDONLY);
 // 	while ((line = get_next_line(fd1)) != NULL)
 // 	{
 // 		printf("%s", line);
 // 		free(line);
 // 	}
-// 	close(fd1);
-// }
+//     printf("Reading from test2.txt:\n");
+//     fd2 = open("fd2.txt", O_RDONLY);
+// 	while ((line = get_next_line(fd2)) != NULL)
+// 	{
+// 		printf("%s", line);
+// 		free(line);
+// 	}
+//     printf("Reading from test3.txt:\n");
+//     fd3 = open("fd3.txt", O_RDONLY);
+// 	while ((line = get_next_line(fd3)) != NULL)
+// 	{
+// 		printf("%s", line);
+// 		free(line);
+// 	}
+
+//     close(fd1);
+// 	close(fd2);
+// 	close(fd3);
+
+//}
