@@ -6,14 +6,14 @@
 /*   By: moraouf <moraouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:09:42 by taha_laylay       #+#    #+#             */
-/*   Updated: 2024/11/26 16:14:52 by moraouf          ###   ########.fr       */
+/*   Updated: 2024/11/26 17:08:23 by moraouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-static char	*ft_strjoin_free(char **reste, char *buffer)
+char	*ft_strjoin_free(char **reste, char *buffer)
 {
 	char	*tmp;
 
@@ -77,7 +77,6 @@ char	*read_file(char *reste, char *buffer, int fd)
 char	*get_next_line(int fd)
 {
 	static char	*reste;
-	size_t		bytes;
 	char		*buffer;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)

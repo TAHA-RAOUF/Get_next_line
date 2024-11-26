@@ -6,7 +6,7 @@
 /*   By: moraouf <moraouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:10:23 by taha_laylay       #+#    #+#             */
-/*   Updated: 2024/11/26 16:08:56 by moraouf          ###   ########.fr       */
+/*   Updated: 2024/11/26 17:08:44 by moraouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <unistd.h>
 
 char		*get_next_line(int fd);
-static char	*ft_strjoin_free(char **reste, char *buffer);
+char	*ft_strjoin_free(char **reste, char *buffer);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
 char		*ft_strjoin(char *s1, char *s2);
 size_t		ft_strlen(char *s);
