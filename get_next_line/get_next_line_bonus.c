@@ -6,7 +6,7 @@
 /*   By: moraouf <moraouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:19:53 by moraouf           #+#    #+#             */
-/*   Updated: 2024/11/26 16:43:02 by moraouf          ###   ########.fr       */
+/*   Updated: 2024/11/27 15:42:46 by moraouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,12 @@ static char	*get_line(char **reste)
 	return (line);
 }
 
-char	*read_file(char *reste, char *buffer, int fd)
+
+char	*read_file(char **reste, char *buffer, int fd)
 {
 	ssize_t	bytes;
 
-	while (!ft_strchr(reste, '\n'))
+	while (!ft_strchr(reste[fd], '\n'))
 	{
 		bytes = read(fd, buffer, BUFFER_SIZE);
 		if (bytes < 0)
@@ -64,20 +65,20 @@ char	*read_file(char *reste, char *buffer, int fd)
 		if (bytes == 0)
 			break ;
 		buffer[bytes] = '\0';
-		reste = ft_strjoin_free(&reste, buffer);
+		reste[fd] = ft_strjoin_free(&reste[fd], buffer);
 	}
-	if (!reste || reste[0] == '\0')
+	free(buffer);
+	if (!reste[fd] || reste[fd][0] == '\0')
 	{
-		free(reste);
+		free(reste[fd]);
 		return (NULL);
 	}
-	return (reste);
+	return (reste[fd]);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*reste[FD_MAX];
-	size_t		bytes;
 	char		*buffer;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
@@ -85,8 +86,7 @@ char	*get_next_line(int fd)
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-	reste[fd] = read_file(reste[fd], buffer, fd);
-	free(buffer);
+	reste[fd] = read_file(reste, buffer, fd);
 	return (get_line(&reste[fd]));
 }
 

@@ -6,7 +6,7 @@
 /*   By: moraouf <moraouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:09:42 by taha_laylay       #+#    #+#             */
-/*   Updated: 2024/11/26 17:08:23 by moraouf          ###   ########.fr       */
+/*   Updated: 2024/11/27 15:21:42 by moraouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char	*read_file(char *reste, char *buffer, int fd)
 		buffer[bytes] = '\0';
 		reste = ft_strjoin_free(&reste, buffer);
 	}
+	free(buffer);
 	if (!reste || reste[0] == '\0')
 	{
 		free(reste);
@@ -85,9 +86,9 @@ char	*get_next_line(int fd)
 	if (!buffer)
 		return (NULL);
 	reste = read_file(reste, buffer, fd);
-	free(buffer);
 	return (get_line(&reste));
 }
+
 // #include <stdio.h>
 
 // int	main(void)
@@ -101,5 +102,6 @@ char	*get_next_line(int fd)
 // 		printf("%s", line);
 // 		free(line);
 // 	}
+
 // 	close(fd1);
 // }

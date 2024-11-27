@@ -6,7 +6,7 @@
 /*   By: moraouf <moraouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:18:44 by moraouf           #+#    #+#             */
-/*   Updated: 2024/11/26 16:32:39 by moraouf          ###   ########.fr       */
+/*   Updated: 2024/11/27 15:37:00 by moraouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ size_t		ft_strlen(char *s);
 char		*ft_strchr(char *s, int c);
 void		*ft_memcpy(void *dest, const void *src, size_t n);
 char		*ft_strdup(char *s);
-char		*read_file(char *reste, char *buffer, int fd);
+char		*read_file(char **reste, char *buffer, int fd);
 
 #endif
